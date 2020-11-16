@@ -1,9 +1,13 @@
-import { Controller, Get, Request } from '@nestjs/common';
+import { Controller, Get, Redirect, Request, Response } from '@nestjs/common';
 import { AppService } from './app.service';
+import { User } from './common/user.decorator';
+import { Response as Res } from 'express';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) {
+    console.log('AppController created');
+  }
 
   @Get()
   getHello(): string {
@@ -11,7 +15,11 @@ export class AppController {
   }
 
   @Get('test')
-  test(@Request() req: any) {
-    return req.user;
+  @Redirect()
+  test(@User() user: any, @Response() res: Res) {
+    if (!user) {
+      res.redirect('/auth/login')
+    }
+    return res.end(user);
   }
 }

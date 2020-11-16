@@ -4,6 +4,7 @@ import { CLIENT } from './auth.constants';
 import { Issuer } from 'openid-client';
 import { AuthController } from './auth.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthService } from './auth.service';
 
 @Module({
   imports: [ConfigModule],
@@ -21,7 +22,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         });
       },
       inject: [ConfigService]
-    }
+    },
+    AuthService
   ],
   controllers: [AuthController]
 })
