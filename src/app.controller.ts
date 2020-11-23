@@ -1,7 +1,8 @@
-import { Controller, Get, Redirect, Request, Response } from '@nestjs/common';
+import { Controller, Get, Redirect, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { User } from './common/user.decorator';
-import { Response as Res } from 'express';
+import { UserGuard } from './common/user.guard';
+import { AuthFilter } from './common/auth.filter';
 
 @Controller()
 export class AppController {
@@ -15,11 +16,8 @@ export class AppController {
   }
 
   @Get('test')
-  @Redirect()
-  test(@User() user: any, @Response() res: Res) {
-    if (!user) {
-      res.redirect('/auth/login')
-    }
-    return res.end(user);
+  @UseGuards(UserGuard)
+  test(@User() user: any) {
+    return user;
   }
 }
