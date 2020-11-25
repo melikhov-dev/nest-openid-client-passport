@@ -4,7 +4,7 @@ import { flatMap, tap } from 'rxjs/internal/operators';
 
 @Injectable()
 export class LoginInterceptor implements NestInterceptor {
-  async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req = context.switchToHttp().getRequest();
     return from( new Promise((resolve, reject) =>
       req.logIn(req.user, (err) => err ? reject(err) : resolve())
