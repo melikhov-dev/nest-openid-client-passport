@@ -1,4 +1,4 @@
-import { Controller, Get, Redirect, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
+import { Controller, Get, Redirect, Request, Response, Session, UseFilters, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { User } from './common/user.decorator';
 import { UserGuard } from './common/user.guard';
@@ -17,7 +17,7 @@ export class AppController {
 
   @Get('test')
   @UseGuards(UserGuard)
-  test(@User() user: any) {
-    return user;
+  test(@Session() session: Record<string, any>) {
+    return session.user;
   }
 }
